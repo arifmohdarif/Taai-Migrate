@@ -1,0 +1,44 @@
+use port 50000 for ssh as shelluser.
+Supp0rt@Hyd2o16
+
+New server:
+===========
+Enable pure-ftp server.
+vi /etc/pure-ftpd.conf
+     Set the following:
+VerboseLog yes
+UnixAuthentication yes
+LogPID yes
+
+# re-start ftp
+service pure-ftpd restart
+
+# add user
+==========
+/usr/sbin/useradd -G wheel shelluser
+passwd shelluser
+Supp0rt@Hyd2o16
+
+# old server
+============
+# backup
+/scripts/pkgacct --skiplogs taaiin
+
+# ftp backup file
+cd /home/
+ftp 162.241.200.122
+shelluser
+{password}
+put cpmove-taaiin.tar.gz
+bye
+
+# restore backup
+cd /home/shelluser/
+chown root:root cpmove-taaiin.tar.gz
+mv cpmove-taaiin.tar.gz /home/
+# restore it from WHM
+Search for Restore and select "Restore a Full Backup/cpmove File"
+
+# Setup ssh to 50000, follow http://wiki.hyd.hamarashehar.com/index.php?title=CPanel_Migration
+###
+
